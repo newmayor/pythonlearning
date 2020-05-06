@@ -49,3 +49,15 @@ class Mortgage(object):
 
     def __str__(self):
         return self.legend #why is this needed?
+
+class Fixed(Mortgage): #class Fixed inherits from class Mortgage all of its methods
+    def __init__(self, loan, r, months):
+        Mortgage.__init__(self, loan, r, months)
+        self.legend = 'Fixed, ' + str(round(r*100, 2)) + '%' 
+
+class FixedWithPts(Mortgage):
+    def __init__(self, loan, r, months, pts):
+        Mortgage.__init__(self, loan, r, months) #I'm not sure why Mortgage.__init__ is explicitly called here. If class Mortgage is already passed in the original class argument, shouldn't the __init__ for Mortgage also carry in?
+        self.pts = pts
+        self.paid = [loan*(pts/100)] #redefining the paid equation and overwriting self.paid that was inherited from class Mortgage
+        self.legend = 'Fixed, ' + str(round(r*100, 2)) + '%, '\ + str(pts) + ' points'
