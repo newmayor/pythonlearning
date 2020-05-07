@@ -20,7 +20,7 @@ Requirements:
 """
 
 def findPayment(loan, r, m):
-    """Assum: loan and r are floats, m an int.
+    """Assume: loan and r are floats, m an int.
     Returns the monthly payment for a mortgage of size loan at a monthly rate of r for m months """
     return loan*((r*(1+r)**m)/((1+r)**m-1)) #loan calculation equation
 
@@ -60,4 +60,23 @@ class FixedWithPts(Mortgage):
         Mortgage.__init__(self, loan, r, months) #I'm not sure why Mortgage.__init__ is explicitly called here. If class Mortgage is already passed in the original class argument, shouldn't the __init__ for Mortgage also carry in?
         self.pts = pts
         self.paid = [loan*(pts/100)] #redefining the paid equation and overwriting self.paid that was inherited from class Mortgage
-        self.legend = 'Fixed, ' + str(round(r*100, 2)) + '%, '\ + str(pts) + ' points'
+        self.legend = 'Fixed, ' + str(round(r*100, 2))\
+             + '%, ' + str(pts) + ' points'
+
+class TwoRate(Mortgage):
+    def __init__(self, loan, r, months, teaserRate, teaserMonths):
+        Mortgage.__init__(self, loan, r, months) 
+        self.teaserMonths = teaserMonths #what is the mechanism behind declaring variables this way? self."variable" = "variable" ?
+        self.teaserRate = teaserRate # same here
+        self.nextRate = r/12
+        self.legend = str(teaserRate*100) + '% for ' + str(teaserMonths)\
+             + ' months, then ' + str(round(r*100, 2)) + '%'
+    def makePayment(self):
+        if len(self.paid) == self.teaserMonths + 1:
+            self.rate = self.nextRate
+            self.payment = findPayment(self.outstanding[-1], self.rate,\
+                 self.months - self.teaserMonths) #calculate the loan payment findPayment using the outstanding PRINCIPLE balance, the self.rate when it's defined after the teaserRate has expired, for the months remaining after the teaserMonths duration is over.
+        Mortgage.makePayment(self)
+
+
+
