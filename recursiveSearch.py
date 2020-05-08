@@ -6,17 +6,17 @@ def search(L, e):
         #Decrements high - low
         if high == low:
             return L[low] == e
-        mid = (low +high)//2
+        mid = (low +high)//2 #find the center element of the remaining list
         if L[mid] == e:
             return True
-        elif L[mid] > e:
+        elif L[mid] > e: 
             if low == mid: #nothing left to search. end of the list L.
                 return False
             else:
-                return bSearch(L, e, low, mid - 1)
+                return bSearch(L, e, low, mid - 1) # search on left side of the list
         else:
-            return bSearch(L, e, mid + 1, high)
+            return bSearch(L, e, mid + 1, high) #search on right side of the list
         
-        if len(L) == 0:
+        if len(L) == 0: #terminate the program if length of the list is 0. This ensures theres at least 1 element to do a search against
             return False
-        else: return bSearch(L, e, 0, len(L) - 1)
+        else: return bSearch(L, e, 0, len(L) - 1) # now start the search
