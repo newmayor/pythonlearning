@@ -14,6 +14,8 @@ def search(L, e):
                 return False
             else:
                 return bSearch(L, e, low, mid - 1)
+        else:
+            return bSearch(L, e, mid + 1, high)
         
         if len(L) == 0:
             return False
