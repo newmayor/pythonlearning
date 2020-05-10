@@ -32,3 +32,4 @@ def mergeSort(L, compare = lambda x, y: x<y):
         left = mergeSort(L[:middle], compare)
         right = mergeSort(L[middle:], compare)
         return merge(left, right, compare)
+    #Time complexity: we already know merge() has complexity O(len(L)). mergeSort() is O(n*log(n)). The time complexity of mergeSort is the complexity of merge(), O(len(L)), multipled by the number of levels of recursion. Since mergeSort divides the list L into half each time, that's a logarithmic decrement by half; therefore, a logarithmic complexity O(log(len(L))). Therefore, the time complexity of mergeSort() is O(n*log(n)) in simplified standard form.
